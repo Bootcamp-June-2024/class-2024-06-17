@@ -1,0 +1,5 @@
+---
+title: "About"
+---
+
+Class project for [Kane's Data Science Course](https://bootcamp.davidkane.info/).

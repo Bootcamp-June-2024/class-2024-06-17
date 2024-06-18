@@ -1,0 +1,48 @@
+---
+execute: 
+  echo: false
+---
+
+
+
+```{r}
+#| message: false
+#| label: setup
+library(tidycensus)
+library(tidyverse)
+```
+
+
+```{r}
+#| message: false
+income_data <- get_acs(
+  geography = "tract",
+  variables = "B19013_001", # Median Household Income
+  state = "MA",
+  year = 2022,
+  geometry = TRUE
+)
+```
+
+
+```{r}
+ggplot(income_data) +
+  geom_sf(aes(fill = estimate), color = NA) +
+  scale_fill_viridis_c(
+    option = "plasma", 
+    name = "Median Income", 
+    labels = scales::dollar,
+    breaks = seq(20000, 220000, by = 50000),  # Adjust the breaks as necessary
+    guide = guide_colorbar(
+      barwidth = 20, barheight = 1,  # Adjust width and height of the legend
+      title.position = "top", title.hjust = 0.5,  # Center the title
+      label.position = "bottom", label.hjust = 0.5  # Position labels
+    )
+  ) +
+  labs(title = "Median Household Income in Massachusetts",
+       subtitle = "All wealthy census tracts are near Boston",
+       caption = "Source: American Community Survey 5-year estimates (2022)") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
